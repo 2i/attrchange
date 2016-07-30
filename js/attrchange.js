@@ -7,18 +7,32 @@ Copyright (C) 2013-2014 Selvakumar Arumugam
 You may use attrchange plugin under the terms of the MIT Licese.
 https://github.com/meetselva/attrchange/blob/master/MIT-License.txt
  */
-(function($) {
+
+/* global define */
+
+(function (global, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define(['exports', 'jquery'], factory);
+  } else if (typeof exports !== 'undefined') {
+    factory(exports, require('jquery'));
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod.exports, global.jquery || global.jQuery);
+  }
+})(this, function(exports, $) {
 	function isDOMAttrModifiedSupported() {
 		var p = document.createElement('p');
 		var flag = false;
 
 		if (p.addEventListener) {
 			p.addEventListener('DOMAttrModified', function() {
-				flag = true
+				flag = true;
 			}, false);
 		} else if (p.attachEvent) {
 			p.attachEvent('onDOMAttrModified', function() {
-				flag = true
+				flag = true;
 			});
 		} else { return false; }
 		p.setAttribute('id', 'target');
@@ -36,7 +50,7 @@ https://github.com/meetselva/attrchange/blob/master/MIT-License.txt
 				e.attributeName = keys[0];
 				e.oldValue = attributes['style'][keys[1]]; //old value
 				e.newValue = keys[1] + ':'
-						+ this.prop("style")[$.camelCase(keys[1])]; //new value
+						+ this.prop('style')[$.camelCase(keys[1])]; //new value
 				attributes['style'][keys[1]] = e.newValue;
 			} else {
 				e.oldValue = attributes[e.attributeName];
@@ -59,7 +73,7 @@ https://github.com/meetselva/attrchange/blob/master/MIT-License.txt
 				callback : $.noop
 			};
 			//backward compatibility
-			if (typeof a === "function") { cfg.callback = a; } else { $.extend(cfg, a); }
+			if (typeof a === 'function') { cfg.callback = a; } else { $.extend(cfg, a); }
 
 			if (cfg.trackValues) { //get attributes old value
 				this.each(function(i, el) {
@@ -82,9 +96,9 @@ https://github.com/meetselva/attrchange/blob/master/MIT-License.txt
 					mutations.forEach(function(e) {
 						var _this = e.target;
 						//get new value if trackValues is true
-						if (cfg.trackValues) {							
+						if (cfg.trackValues) {
 							e.newValue = $(_this).attr(e.attributeName);
-						}						
+						}
 						if ($(_this).data('attrchange-status') === 'connected') { //execute if connected
 							cfg.callback.call(_this, e);
 						}
@@ -98,14 +112,14 @@ https://github.com/meetselva/attrchange/blob/master/MIT-License.txt
 			} else if (isDOMAttrModifiedSupported()) { //Opera
 				//Good old Mutation Events
 				return this.data('attrchange-method', 'DOMAttrModified').data('attrchange-status', 'connected').on('DOMAttrModified', function(event) {
-					if (event.originalEvent) { event = event.originalEvent; }//jQuery normalization is not required 
+					if (event.originalEvent) { event = event.originalEvent; }//jQuery normalization is not required
 					event.attributeName = event.attrName; //property names to be consistent with MutationObserver
 					event.oldValue = event.prevValue; //property names to be consistent with MutationObserver
 					if ($(this).data('attrchange-status') === 'connected') { //disconnected logically
 						cfg.callback.call(this, event);
 					}
 				});
-			} else if ('onpropertychange' in document.body) { //works only in IE		
+			} else if ('onpropertychange' in document.body) { //works only in IE
 				return this.data('attrchange-method', 'propertychange').data('attrchange-status', 'connected').on('propertychange', function(e) {
 					e.attributeName = window.event.propertyName;
 					//to set the attr old value
@@ -120,5 +134,5 @@ https://github.com/meetselva/attrchange/blob/master/MIT-License.txt
 				$.fn.attrchange['extensions'].hasOwnProperty(a)) { //extensions/options
 			return $.fn.attrchange['extensions'][a].call(this, b);
 		}
-	}
-})(jQuery);
+	};
+});
