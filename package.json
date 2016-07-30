@@ -1,6 +1,6 @@
 {
   "name": "attrchange",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "jQuery plugin to observe attribute changes of an element",
   "main": "js/attrchange.js",
   "directories": {
