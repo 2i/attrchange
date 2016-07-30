@@ -78,8 +78,8 @@ https://github.com/meetselva/attrchange/blob/master/MIT-License.txt
 			if (cfg.trackValues) { //get attributes old value
 				this.each(function(i, el) {
 					var attributes = {};
-					for ( var attr, i = 0, attrs = el.attributes, l = attrs.length; i < l; i++) {
-						attr = attrs.item(i);
+					for ( var attr, j = 0, attrs = el.attributes, l = attrs.length; j < l; j++) {
+						attr = attrs.item(j);
 						attributes[attr.nodeName] = attr.value;
 					}
 					$(this).data('attr-old-value', attributes);
