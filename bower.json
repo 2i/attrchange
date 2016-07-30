@@ -1,0 +1,23 @@
+{
+  "name": "attrchange",
+  "description": "jQuery plugin to observe attribute changes of an element",
+  "main": "js/attrchange.js",
+  "license": "MIT",
+  "keywords": [
+    "jquery",
+    "plugin",
+    "attribute",
+    "change"
+  ],
+  "homepage": "https://github.com/2i/attrchange",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.0"
+  }
+}
